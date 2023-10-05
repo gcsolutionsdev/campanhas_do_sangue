@@ -1,0 +1,37 @@
+---
+title: 'Parabéns pela convocação'
+description: 'Se você leu, também está escalado. Doe Sangue!'
+pubDate: 'Nov 22 2022'
+heroImage: '/campaign-world-cup-title.png'
+favicon: '/hemoce-favicon.png'
+---
+import ImageCreator from '../../components/ImageCreator.astro'
+
+<ImageCreator 
+	src="/campaign-world-cup.png"
+	config={
+		{ 
+			font : "Anton",
+			defaultFontSize: 200,
+			textBaseline: "middle",
+			fillStyle: "#355e9e",
+			textX: 2,
+			textY: 20,
+			useWidth: {
+				X: true,
+				Y: false,
+			},
+			squareX: 555,
+			squareY: 500,
+			modifier: "toUpperCase",
+			shadow: {
+				textX: 12,
+				textY: 30,
+				fillStyle: "#d0d0d0"
+			},
+			prefix: null,
+			sufix: ",",
+		}
+	}
+>
+</ImageCreator>

@@ -1,11 +1,11 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_FAVICON } from '../consts';
 ---
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<h2><a class="title" href="/"><img class="icon" src={SITE_FAVICON} alt="">{SITE_TITLE}</a></h2>
 		<div class="internal-links">
 			<HeaderLink href="/">Página inicial</HeaderLink>
 			<HeaderLink href="/hemoce">Hemoce</HeaderLink>
@@ -47,6 +47,15 @@ import { SITE_TITLE } from '../consts';
 	.social-links,
 	.social-links a {
 		display: flex;
+	}
+	.title {
+		display: flex;
+		align-content: center;
+		align-items: center;
+		justify-content: flex-start;
+	}
+	.icon {
+		width: 5%;
 	}
 	@media (max-width: 720px) {
 		.social-links {
