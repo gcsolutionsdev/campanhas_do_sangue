@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-	site: 'https://example.com',
+	site: "https://gcsolutionsdev.github.io",
+	base: '/campanhas_do_sangue',
 	integrations: [mdx(), sitemap()],
 });
