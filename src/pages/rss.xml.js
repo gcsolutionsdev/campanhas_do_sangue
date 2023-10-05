@@ -10,7 +10,7 @@ export async function GET(context) {
 		site: context.site,
 		items: posts.map((post) => ({
 			...post.data,
-			link: `/hemoce/${post.slug}/`,
+			link: `/campanhas_do_sangue/hemoce/${post.slug}/`,
 		})),
 	});
 }
