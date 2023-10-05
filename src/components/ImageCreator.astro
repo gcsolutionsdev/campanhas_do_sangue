@@ -11,7 +11,7 @@ const { src, config } = Astro.props;
   Compartilhar Imagem 🔗
 </button>
 
-<canvas width="1080" height="1080" style="width: 80%;" data-src={src} data-options={JSON.stringify(config)}></canvas>
+<canvas width="1080" height="1080" style="width: 100%;" data-src={src} data-options={JSON.stringify(config)}></canvas>
 
 <script defer="">
     const canvas = document.querySelector("canvas");
@@ -228,10 +228,10 @@ const { src, config } = Astro.props;
       const widthToCompare = context.measureText(input.value.trim()).width
       context.fillStyle = options.fillStyle;
       if (widthToCompare == 0) {
-        context.font = options.defaultFontSize + " px " + options.font;
+        context.font = (options.textStyle ? options.textStyle + " " : "") + options.defaultFontSize + " px " + options.font;
         return;
       }
-      context.font = fontSize + "px " + options.font;
+      context.font = (options.textStyle ? options.textStyle + " " : "") + fontSize + "px " + options.font;
       if (fontSize >= options.maxCompareFontSize)
         return;
       if (widthToCompare < maxWidth) {
@@ -250,7 +250,7 @@ const { src, config } = Astro.props;
       if(context.textBaseline != "middle") {
         setFontByMaxWidth(options.maxFontSize);
       } else {
-        context.font = options.defaultFontSize + "px " + options.font;
+        context.font = (options.textStyle ? options.textStyle + " " : "") + options.defaultFontSize + "px " + options.font;
       }
       if(localOptions.modifier) {
         this.value = this.value[localOptions.modifier]?.() ?? this.value
