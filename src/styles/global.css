@@ -42,6 +42,10 @@ body {
 	font-size: 20px;
 	line-height: 1.7;
 }
+@font-face {
+	font-family: 'Amfibia';
+	src: url('/campanhas_do_sangue/fonts/atkinson-bold.woff') format('woff');
+}
 main {
 	width: 720px;
 	max-width: calc(100% - 2em);
