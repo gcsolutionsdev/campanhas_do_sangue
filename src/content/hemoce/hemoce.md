@@ -2,8 +2,8 @@
 title: 'HEMOCE'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Mar 09 1979'
-heroImage: '/hemoce-title.png'
-favicon: '/hemoce-favicon.png'
+heroImage: '/campanhas_do_sangue/hemoce-title.png'
+favicon: '/campanhas_do_sangue/hemoce-favicon.png'
 ---
 
 O Centro de Hematologia e Hemoterapia do Ceará (Hemoce), é um equipamento vinculado à Secretaria da Saúde do Estado (Sesa) e constitui a hemorrede pública estadual com serviços e atendimento de hemoterapia e hematologia. O Hemoce está estruturado e organizado para atender a população cearense em todo o território estadual com serviços regionalizados e atendimento descentralizado aos 184 municípios e toda a população do Ceará. 
