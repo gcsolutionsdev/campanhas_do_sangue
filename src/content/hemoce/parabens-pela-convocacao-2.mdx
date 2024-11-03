@@ -6,30 +6,30 @@ heroImage: "/campanhas_do_sangue/campaign-world-cup-title.png"
 favicon: "/campanhas_do_sangue/hemoce-favicon.png"
 ---
 
-import ImageCreator from "../../components/ImageCreator.astro";
+import ImageCreateOverlay from "../../components/ImageCreateOverlay.astro";
 
-<ImageCreator
-  src="/campanhas_do_sangue/campaign-world-cup.png"
+<ImageCreateOverlay
+  src="\../../../public/MOLDURA-HEMOCE-3.png"
   config={{
-    font: "Anton",
-    defaultFontSize: 200,
+    font: "Cocogoose, Anton",
+    defaultFontSize: 100,
     textBaseline: "middle",
     fillStyle: "#355e9e",
-    textX: 2,
-    textY: 20,
+    textX: 2, // Posição horizontal do texto
+    textY: 20, // Posição vertical do texto
     useWidth: {
       X: true,
       Y: false,
     },
-    squareX: 555,
+    squareX: 500,
     squareY: 500,
     modifier: "toUpperCase",
     shadow: {
-      textX: 12,
-      textY: 30,
+      textX: 10,
+      textY: 25,
       fillStyle: "#d0d0d0",
     },
     prefix: null,
-    sufix: ",",
+    sufix: null,
   }}
-></ImageCreator>
+></ImageCreateOverlay>
