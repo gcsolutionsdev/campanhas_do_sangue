@@ -8,9 +8,6 @@ const canShare =  typeof navigator !== 'undefined' && navigator.share;
 <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,600;1,600&amp;family=Josefin+Sans&amp;family=Poppins&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 
-
-
-
 <input type="text">
 
 <button class="save">Salvar Imagem 💾</button>
@@ -225,8 +222,8 @@ const canShare =  typeof navigator !== 'undefined' && navigator.share;
     }
     });
 
-    document.querySelector("input").value = 
-     names[Math.floor(Math.random() * names.length)];
+    document.querySelector("input").value = ""
+    //  names[Math.floor(Math.random() * names.length)];
 
     document.querySelector("button.save").addEventListener("click", () => {
       const a = document.createElement("a");
@@ -301,7 +298,8 @@ const canShare =  typeof navigator !== 'undefined' && navigator.share;
         context.font = (options.textStyle ? options.textStyle + " " : "") + options.defaultFontSize + "px " + options.font;
       }
       if(localOptions.modifier) {
-        this.value = this.value[localOptions.modifier]?.() ?? this.value
+        // this.value = this.value[localOptions.modifier]?.() ?? this.value
+        this.value = ""
       }
       const width = context.measureText(
           this.value.trim()
@@ -349,3 +347,4 @@ const canShare =  typeof navigator !== 'undefined' && navigator.share;
       setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
     });
   </script>
+ <p>Feito com carinho por <a href="https://github.com/Carloss-Dev" target="_blank">Carlos Cavalcante</a></p>
