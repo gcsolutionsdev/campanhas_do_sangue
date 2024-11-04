@@ -1,350 +1,453 @@
 ---
 const { src, config } = Astro.props;
-import "../styles/global.css"
-const canShare =  typeof navigator !== 'undefined' && navigator.share;
+import "../styles/global.css";
+// const canShare = typeof navigator !== "undefined" && navigator.share;
+const canShare = true;
 ---
+
 <!-- Fontes -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,600;1,600&family=Josefin+Sans&family=Poppins&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
+  rel="stylesheet"
+/>
 
-<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,600;1,600&amp;family=Josefin+Sans&amp;family=Poppins&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<style>
+  .action-panel {
+    /* border: 1pt solid green; */
+    width: 60%;
+    gap: 10px;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    .inputs {
+      height: 100%;
+      width: 60%;
+      min-width: 250px;
+      display: flex;
+      flex-direction: column;
+      /* border: 1pt solid red; */
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: flex-end;
+      height: 100%;
+      width: 40%;
+      padding-bottom: 25px;
+      /* border: 1pt solid yellow; */
+    }
+  }
+  .overlay-canvas {
+    width: 60%;
+    position: relative;
+    height: 45rem;
+    display: flex;
+    justify-content: center;
 
-<input type="text">
+    .user-image {
+      position: absolute;
+      z-index: 100;
+      background-color: red;
+      width: 80%;
+      height: 68%;
+      margin-top: 40px;
+    }
+  }
+  @media (max-width: 680px) {
+    .overlay-canvas {
+      width: 100%;
+      height: 40rem;
 
-<button class="save">Salvar Imagem 💾</button>
+      .user-image {
+        margin-top: 35px;
+      }
+    }
+    .action-panel {
+      width: -webkit-fill-available;
+    }
+  }
+  @media (max-width: 480px) {
+    .overlay-canvas {
+      width: 100%;
+    }
+    .action-panel {
+      flex-direction: column;
+      margin: 20px 0;
+      .buttons {
+        justify-content: center;
+        flex-direction: row;
+      }
+    }
+  }
+</style>
 
- <button>
-<label for="imageInput" class="custom-image-upload">
-    Selecione uma imagem
-  </label>
-</button>
+<section class="action-panel">
+  <div class="inputs">
+    <label for="name">Nome: </label>
+    <input type="text" id="name" />
+    <label for="doacoes">Quantidade de doações:</label>
+    <input type="number" id="doacoes" />
+  </div>
 
-{canShare && <button class="share">
-  Compartilhar Imagem 🔗
-</button>}
+  <div class="buttons">
+    <button class="save">Salvar Imagem 💾</button>
+    <button>
+      <label for="imageInput" class="custom-image-upload">
+        Selecione uma foto 📷
+      </label>
+    </button>
 
-<input type="file" id="imageInput" class="imageInput" accept="image/*" style="display: none;"/>
+    {canShare && <button class="share">Compartilhar Imagem 🔗</button>}
 
-<canvas width="600" height="1067" style="width: 60%; border: 1pt solid red;" data-src={src} data-options={JSON.stringify(config)}></canvas>
+    <input
+      type="file"
+      id="imageInput"
+      class="imageInput"
+      accept="image/*"
+      style="display: none;"
+    />
+  </div>
+</section>
 
+<section class="overlay-canvas">
+  <canvas
+    width="600"
+    height="1067"
+    style="width: 100%; height: 100%; position: absolute; z-index: 200;"
+    data-src={src}
+    data-options={JSON.stringify(config)}></canvas>
+  <div class="user-image"></div>
+</section>
 
 <script defer="">
-    const canvas = document.querySelector("canvas");
-    const context = canvas.getContext("2d");
-    const options = JSON.parse(canvas.dataset.options ?? "{}");
-    const baseImage = new Image();
-    baseImage.src = canvas.dataset.src;
-    const names = [
-      "Késsia",
-      "Jose",
-      "João",
-      "Michelle",
-      "Joao",
-      "Antônio",
-      "Antonio",
-      "Francisco",
-      "Carlos",
-      "Paulo",
-      "Pedro",
-      "Lucas",
-      "Luiz",
-      "Luíz",
-      "Marcos",
-      "Luis",
-      "Luís",
-      "Gabriel",
-      "Rafael",
-      "Daniel",
-      "Marcelo",
-      "Bruno",
-      "Eduardo",
-      "Felipe",
-      "Raimundo",
-      "Rodrigo",
-      "Manoel",
-      "Mateus",
-      "André",
-      "André",
-      "Denise",
-      "Fernando",
-      "Fábio",
-      "Fabio",
-      "Leonardo",
-      "Gustavo",
-      "Guilherme",
-      "Leandro",
-      "Tiago",
-      "Ânderson",
-      "Anderson",
-      "Ricardo",
-      "Márcio",
-      "Marcio",
-      "Jorge",
-      "Sebastião",
-      "Sebastiao",
-      "Alexandre",
-      "Roberto",
-      "Édson",
-      "Edson",
-      "Diego",
-      "Vítor",
-      "Vitor",
-      "Sérgio",
-      "Sergio",
-      "Cláudio",
-      "Claudio",
-      "Matheus",
-      "Thiago",
-      "Geraldo",
-      "Adriano",
-      "Luciano",
-      "Júlio",
-      "Julio",
-      "Renato",
-      "Alex",
-      "Vinícius",
-      "Vinicius",
-      "Rogério",
-      "Rogerio",
-      "Samuel",
-      "Ronaldo",
-      "Mário",
-      "Mario",
-      "Flávio",
-      "Flavio",
-      "Ígor",
-      "Igor",
-      "Douglas",
-      "Daví",
-      "Davi",
-      "Manuel",
-      "Maria",
-      "Ana",
-      "Francisca",
-      "Antônia",
-      "Antonia",
-      "Adriana",
-      "Juliana",
-      "Márcia",
-      "Marcia",
-      "Fernanda",
-      "Patricia",
-      "Patrícia",
-      "Aline",
-      "Sandra",
-      "Camila",
-      "Amanda",
-      "Bruna",
-      "Jéssica",
-      "Jessica",
-      "Leticia",
-      "Letícia",
-      "Júlia",
-      "Julia",
-      "Luciana",
-      "Vanessa",
-      "Mariana",
-      "Gabriela",
-      "Vera",
-      "Luany",
-      "Vitória",
-      "Vitoria",
-      "Larissa",
-      "Cláudia",
-      "Claudia",
-      "Beatriz",
-      "Luana",
-      "Rita",
-      "Sônia",
-      "Sonia",
-      "Renata",
-      "Eliane",
-      "Josefa",
-      "Simone",
-      "Natália",
-      "Natalia",
-      "Cristiane",
-      "Carla",
-      "Débora",
-      "Debora",
-      "Rosângela",
-      "Rosangela",
-      "Jaqueline",
-      "Rosa",
-      "Daniela",
-      "Aparecida",
-      "Marlene",
-      "Terezinha",
-      "Raimunda",
-      "Andréia",
-      "Andreia",
-      "Fabiana",
-      "Lúcia",
-      "Lucia",
-      "Raquel",
-      "Ângela",
-      "Angela",
-      "Rafaela",
-      "Joana",
-      "Luzía",
-      "Luzia",
-      "Elaine",
-      "Daniele",
-      "Regina",
-      "Dáiane",
-      "Daiane",
-      "Suelí",
-      "Sueli",
-      "Alessandra",
-      "Isabel",
-    ];
-    
-    document.querySelector("input[type='file']").addEventListener("change", ({target}) => {
-      const file = target.files[0];
-      
-    if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        
-        reader.onload = (e) => {
-            // const image = new Image();
-        
-            // image.src = e.target.result;
+  const canvas = document.querySelector("canvas");
+  const context = canvas.getContext("2d");
+  const options = JSON.parse(canvas.dataset.options ?? "{}");
+  const userImageContainer = document.querySelector("div.user-image");
+  const baseImage = new Image();
+  baseImage.src = canvas.dataset.src;
+  const names = [
+    "Késsia",
+    "Jose",
+    "João",
+    "Michelle",
+    "Joao",
+    "Antônio",
+    "Antonio",
+    "Francisco",
+    "Carlos",
+    "Paulo",
+    "Pedro",
+    "Lucas",
+    "Luiz",
+    "Luíz",
+    "Marcos",
+    "Luis",
+    "Luís",
+    "Gabriel",
+    "Rafael",
+    "Daniel",
+    "Marcelo",
+    "Bruno",
+    "Eduardo",
+    "Felipe",
+    "Raimundo",
+    "Rodrigo",
+    "Manoel",
+    "Mateus",
+    "André",
+    "André",
+    "Denise",
+    "Fernando",
+    "Fábio",
+    "Fabio",
+    "Leonardo",
+    "Gustavo",
+    "Guilherme",
+    "Leandro",
+    "Tiago",
+    "Ânderson",
+    "Anderson",
+    "Ricardo",
+    "Márcio",
+    "Marcio",
+    "Jorge",
+    "Sebastião",
+    "Sebastiao",
+    "Alexandre",
+    "Roberto",
+    "Édson",
+    "Edson",
+    "Diego",
+    "Vítor",
+    "Vitor",
+    "Sérgio",
+    "Sergio",
+    "Cláudio",
+    "Claudio",
+    "Matheus",
+    "Thiago",
+    "Geraldo",
+    "Adriano",
+    "Luciano",
+    "Júlio",
+    "Julio",
+    "Renato",
+    "Alex",
+    "Vinícius",
+    "Vinicius",
+    "Rogério",
+    "Rogerio",
+    "Samuel",
+    "Ronaldo",
+    "Mário",
+    "Mario",
+    "Flávio",
+    "Flavio",
+    "Ígor",
+    "Igor",
+    "Douglas",
+    "Daví",
+    "Davi",
+    "Manuel",
+    "Maria",
+    "Ana",
+    "Francisca",
+    "Antônia",
+    "Antonia",
+    "Adriana",
+    "Juliana",
+    "Márcia",
+    "Marcia",
+    "Fernanda",
+    "Patricia",
+    "Patrícia",
+    "Aline",
+    "Sandra",
+    "Camila",
+    "Amanda",
+    "Bruna",
+    "Jéssica",
+    "Jessica",
+    "Leticia",
+    "Letícia",
+    "Júlia",
+    "Julia",
+    "Luciana",
+    "Vanessa",
+    "Mariana",
+    "Gabriela",
+    "Vera",
+    "Luany",
+    "Vitória",
+    "Vitoria",
+    "Larissa",
+    "Cláudia",
+    "Claudia",
+    "Beatriz",
+    "Luana",
+    "Rita",
+    "Sônia",
+    "Sonia",
+    "Renata",
+    "Eliane",
+    "Josefa",
+    "Simone",
+    "Natália",
+    "Natalia",
+    "Cristiane",
+    "Carla",
+    "Débora",
+    "Debora",
+    "Rosângela",
+    "Rosangela",
+    "Jaqueline",
+    "Rosa",
+    "Daniela",
+    "Aparecida",
+    "Marlene",
+    "Terezinha",
+    "Raimunda",
+    "Andréia",
+    "Andreia",
+    "Fabiana",
+    "Lúcia",
+    "Lucia",
+    "Raquel",
+    "Ângela",
+    "Angela",
+    "Rafaela",
+    "Joana",
+    "Luzía",
+    "Luzia",
+    "Elaine",
+    "Daniele",
+    "Regina",
+    "Dáiane",
+    "Daiane",
+    "Suelí",
+    "Sueli",
+    "Alessandra",
+    "Isabel",
+  ];
+  console.log(userImageContainer);
 
-            canvas.style.backgroundImage = `url(${e.target.result})`;
-            canvas.style.backgroundSize = "cover"; 
-            canvas.style.backgroundPosition = "center"; 
-            // image.onload = () => {
-            // };
+  document
+    .querySelector("input[type='file']")
+    .addEventListener("change", ({ target }) => {
+      const file = target.files[0];
+
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        const userImage = new Image();
+
+        reader.onload = (e) => {
+          userImage.src = e.target.result;
+
+          userImage.onload = () => {
+            context.drawImage(userImage);
+          };
         };
 
         reader.readAsDataURL(file);
-    } else {
-        alert("Por favor, selecione um arquivo de imagem.");
-    }
-    });
-
-    document.querySelector("input").value = ""
-    //  names[Math.floor(Math.random() * names.length)];
-
-    document.querySelector("button.save").addEventListener("click", () => {
-      const a = document.createElement("a");
-      a.setAttribute("href", canvas.toDataURL("image/png"));
-      a.setAttribute(
-        "download",
-        document.querySelector("input").value.trim()
-      );
-      console.log(a);
-      
-      
-      a.click();
-    });
-
-    const shareBtn = document.querySelector("button.share");
-  
-    shareBtn?.addEventListener("click", () => {
-      canvas.toBlob((blob) => {
-        const filesArray = [
-          new File(
-            [blob],
-            document.querySelector("input").value.trim() + ".jpg",
-            {
-              type: "image/jpeg",
-              lastModified: new Date().getTime(),
-            }
-          ),
-        ];
-          
-        if (navigator.share) {
-          navigator.share({
-            files: filesArray,
-          });
-        } else {
-          
-          
-          alert('Função de compartilhamento não habilitada nesse navegador. Experimente utilizar o Chrome/Safari/Opera');
-        }
-      });
-    });
-
-    const input = document.querySelector("input");
-    function setFontByMaxWidth(maxWidth, fontSize = 1) {
-      if(options.modifier) {
-        input.value = input.value[options.modifier]?.() ?? input.value
-      }
-      const widthToCompare = context.measureText(input.value.trim()).width
-      context.fillStyle = options.fillStyle;
-      if (widthToCompare == 0) {
-        context.font = (options.textStyle ? options.textStyle + " " : "") + options.defaultFontSize + " px " + options.font;
-        return;
-      }
-      context.font = (options.textStyle ? options.textStyle + " " : "") + fontSize + "px " + options.font;
-      if (fontSize >= options.maxCompareFontSize)
-        return;
-      if (widthToCompare < maxWidth) {
-        setFontByMaxWidth(maxWidth, fontSize + 1);
-      }
-    }
-
-    input.addEventListener("keyup", function () {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(baseImage, 0, 0, 600, 1067);
-      context.save();
-      context.translate(options.squareX, options.squareY);
-      const localOptions = structuredClone(options);
-
-      context.textBaseline = options.textBaseline;
-      if(context.textBaseline != "middle") {
-        setFontByMaxWidth(options.maxFontSize);
       } else {
-        context.font = (options.textStyle ? options.textStyle + " " : "") + options.defaultFontSize + "px " + options.font;
+        alert("Por favor, selecione um arquivo de imagem.");
       }
-      if(localOptions.modifier) {
-        // this.value = this.value[localOptions.modifier]?.() ?? this.value
-        this.value = ""
-      }
-      const width = context.measureText(
-          this.value.trim()
-      ).width;
-      if(localOptions.useWidth?.X) {
-        localOptions.textX = -width / localOptions.textX
-        if(localOptions.shadow?.textX) {
-          localOptions.shadow.textX = -width / localOptions.shadow.textX
-        }
-      }
-      if(localOptions.useWidth?.Y ) {
-        localOptions.textY = -width / localOptions.textY
-        if(localOptions.shadow?.textY) {
-          localOptions.shadow.textY = -width / localOptions.shadow.textY
-        }
-      }
+    });
 
-      let value = structuredClone(this.value);
-      if(localOptions.prefix) {
-        value = localOptions.prefix + value
-      }
-      if(localOptions.sufix) {
-        value += localOptions.sufix
-      }
+  document.querySelector("input").value = "";
+  //  names[Math.floor(Math.random() * names.length)];
 
-      if(localOptions.shadow) {
-        context.fillStyle = localOptions.shadow.fillStyle;
-        context.fillText(
-          value,
-          -width / 2 + 10,
-          30
+  document.querySelector("button.save").addEventListener("click", () => {
+    const a = document.createElement("a");
+    a.setAttribute("href", canvas.toDataURL("image/png"));
+    a.setAttribute("download", document.querySelector("input").value.trim());
+    console.log(a);
+
+    a.click();
+  });
+
+  document.querySelector("button.share")?.addEventListener("click", () => {
+    canvas.toBlob((blob) => {
+      const filesArray = [
+        new File(
+          [blob],
+          document.querySelector("input").value.trim() + ".jpg",
+          {
+            type: "image/jpeg",
+            lastModified: new Date().getTime(),
+          }
+        ),
+      ];
+
+      if (navigator.share) {
+        navigator.share({
+          files: filesArray,
+        });
+      } else {
+        alert(
+          "Função de compartilhamento não habilitada nesse navegador. Experimente utilizar o Chrome/Safari/Opera"
         );
       }
+    });
+  });
 
-      context.fillStyle = localOptions.fillStyle;
-      context.fillText(value.trim(), localOptions.textX, localOptions.textY);
-      context.restore();
-    });
-    baseImage.addEventListener("load", () => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(baseImage, 0, 0, 600, 1067);
-      context.save();
-      setTimeout(() => input.dispatchEvent(new Event("keyup")), 100);
-      setTimeout(() => input.dispatchEvent(new Event("keyup")), 300);
-      setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
-    });
-  </script>
- <p>Feito com carinho por <a href="https://github.com/Carloss-Dev" target="_blank">Carlos Cavalcante</a></p>
+  const input = document.querySelector("input");
+  function setFontByMaxWidth(maxWidth, fontSize = 1) {
+    if (options.modifier) {
+      input.value = input.value[options.modifier]?.() ?? input.value;
+    }
+    const widthToCompare = context.measureText(input.value.trim()).width;
+    context.fillStyle = options.fillStyle;
+    if (widthToCompare == 0) {
+      context.font =
+        (options.textStyle ? options.textStyle + " " : "") +
+        options.defaultFontSize +
+        " px " +
+        options.font;
+      return;
+    }
+    context.font =
+      (options.textStyle ? options.textStyle + " " : "") +
+      fontSize +
+      "px " +
+      options.font;
+    if (fontSize >= options.maxCompareFontSize) return;
+    if (widthToCompare < maxWidth) {
+      setFontByMaxWidth(maxWidth, fontSize + 1);
+    }
+  }
+
+  input.addEventListener("keyup", function () {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+    context.save();
+    context.translate(options.squareX, options.squareY);
+    const localOptions = structuredClone(options);
+
+    context.textBaseline = options.textBaseline;
+    if (context.textBaseline != "middle") {
+      setFontByMaxWidth(options.maxFontSize);
+    } else {
+      context.font =
+        (options.textStyle ? options.textStyle + " " : "") +
+        options.defaultFontSize +
+        "px " +
+        options.font;
+    }
+    if (localOptions.modifier) {
+      // this.value = this.value[localOptions.modifier]?.() ?? this.value
+      this.value = "";
+    }
+    const width = context.measureText(this.value.trim()).width;
+    if (localOptions.useWidth?.X) {
+      localOptions.textX = -width / localOptions.textX;
+      if (localOptions.shadow?.textX) {
+        localOptions.shadow.textX = -width / localOptions.shadow.textX;
+      }
+    }
+    if (localOptions.useWidth?.Y) {
+      localOptions.textY = -width / localOptions.textY;
+      if (localOptions.shadow?.textY) {
+        localOptions.shadow.textY = -width / localOptions.shadow.textY;
+      }
+    }
+
+    let value = structuredClone(this.value);
+    if (localOptions.prefix) {
+      value = localOptions.prefix + value;
+    }
+    if (localOptions.sufix) {
+      value += localOptions.sufix;
+    }
+
+    if (localOptions.shadow) {
+      context.fillStyle = localOptions.shadow.fillStyle;
+      context.fillText(value, -width / 2 + 10, 30);
+    }
+
+    context.fillStyle = localOptions.fillStyle;
+    context.fillText(value.trim(), localOptions.textX, localOptions.textY);
+    context.restore();
+  });
+  baseImage.addEventListener("load", () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+    context.save();
+    setTimeout(() => input.dispatchEvent(new Event("keyup")), 100);
+    setTimeout(() => input.dispatchEvent(new Event("keyup")), 300);
+    setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
+  });
+</script>
+<p>
+  Feito com carinho por <a href="https://github.com/Carloss-Dev" target="_blank"
+    >Carlos Cavalcante</a
+  >
+</p>
