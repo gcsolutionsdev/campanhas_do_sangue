@@ -1,8 +1,8 @@
 ---
 const { src, config } = Astro.props;
 import "../styles/global.css";
-// const canShare = typeof navigator !== "undefined" && navigator.share;
-const canShare = true;
+const canShare = typeof navigator !== "undefined" && navigator.share;
+// const canShare = true;
 ---
 
 <!-- Fontes -->
@@ -46,37 +46,33 @@ const canShare = true;
   }
   .overlay-canvas {
     width: 60%;
-    position: relative;
     height: 45rem;
+    position: relative;
     display: flex;
     justify-content: center;
-
-    .user-image {
+    canvas:nth-child(1) {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      z-index: 200;
+    }
+    canvas:nth-child(2) {
+      height: 30.1rem;
+      width: 78%;
+      top: 42px;
       position: absolute;
       z-index: 100;
-      background-color: red;
-      width: 80%;
-      height: 68%;
-      margin-top: 40px;
     }
   }
   @media (max-width: 680px) {
     .overlay-canvas {
-      width: 100%;
-      height: 40rem;
-
-      .user-image {
-        margin-top: 35px;
-      }
+      width: -webkit-fill-available;
     }
     .action-panel {
       width: -webkit-fill-available;
     }
   }
   @media (max-width: 480px) {
-    .overlay-canvas {
-      width: 100%;
-    }
     .action-panel {
       flex-direction: column;
       margin: 20px 0;
@@ -118,21 +114,27 @@ const canShare = true;
 
 <section class="overlay-canvas">
   <canvas
-    width="600"
-    height="1067"
-    style="width: 100%; height: 100%; position: absolute; z-index: 200;"
+    width="720"
+    height="1280"
+    id="mainCanvas"
     data-src={src}
     data-options={JSON.stringify(config)}></canvas>
-  <div class="user-image"></div>
+
+  <canvas id="imageCanvas" width="640" height="1138"></canvas>
 </section>
 
 <script defer="">
-  const canvas = document.querySelector("canvas");
-  const context = canvas.getContext("2d");
-  const options = JSON.parse(canvas.dataset.options ?? "{}");
-  const userImageContainer = document.querySelector("div.user-image");
+  // Canvas 1 - principal
+  const mainCanvas = document.querySelector("canvas#mainCanvas");
+  const mainContext = mainCanvas.getContext("2d");
+
+  // Canvas 2 - imagem do usuário
+  const imageCanvas = document.querySelector("canvas#imageCanvas");
+  const imageContext = imageCanvas.getContext("2d");
+
+  const options = JSON.parse(mainCanvas.dataset.options ?? "{}");
   const baseImage = new Image();
-  baseImage.src = canvas.dataset.src;
+  baseImage.src = mainCanvas.dataset.src;
   const names = [
     "Késsia",
     "Jose",
@@ -297,7 +299,6 @@ const canShare = true;
     "Alessandra",
     "Isabel",
   ];
-  console.log(userImageContainer);
 
   document
     .querySelector("input[type='file']")
@@ -306,13 +307,36 @@ const canShare = true;
 
       if (file && file.type.startsWith("image/")) {
         const reader = new FileReader();
-        const userImage = new Image();
+        const userImg = new Image();
 
         reader.onload = (e) => {
-          userImage.src = e.target.result;
+          userImg.src = e.target.result;
 
-          userImage.onload = () => {
-            context.drawImage(userImage);
+          userImg.onload = () => {
+            const canvasAspect = imageCanvas.width / imageCanvas.height;
+            const imgAspect = userImg.width / userImg.height;
+
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            if (canvasAspect > imgAspect) {
+              drawWidth = imageCanvas.width;
+              drawHeight = imageCanvas.width / imgAspect;
+              offsetY = (imageCanvas.height - drawHeight) / 2;
+              offsetX = 0;
+            } else {
+              drawHeight = imageCanvas.height;
+              drawWidth = imageCanvas.height * imgAspect;
+              offsetX = (imageCanvas.width - drawWidth) / 2;
+              offsetY = 0;
+            }
+
+            imageContext.drawImage(
+              userImg,
+              offsetX,
+              offsetY,
+              drawWidth,
+              drawHeight
+            );
           };
         };
 
@@ -322,20 +346,36 @@ const canShare = true;
       }
     });
 
+  function joinCanvas() {
+    // Criar um canvas temporário
+    const canvasTemp = document.createElement("canvas");
+    canvasTemp.width = mainCanvas.width;
+    canvasTemp.height = mainCanvas.height;
+    const ctxTemp = canvasTemp.getContext("2d");
+
+    ctxTemp.drawImage(imageCanvas, 0, 0, imageCanvas.width, imageCanvas.height);
+
+    ctxTemp.drawImage(mainCanvas, 0, 0, mainCanvas.width, mainCanvas.height);
+
+    return canvasTemp;
+  }
+
   document.querySelector("input").value = "";
-  //  names[Math.floor(Math.random() * names.length)];
+  //  names[Math.floor(Math.random() * names.length)];?
 
   document.querySelector("button.save").addEventListener("click", () => {
     const a = document.createElement("a");
-    a.setAttribute("href", canvas.toDataURL("image/png"));
+    const finalCanvas = joinCanvas();
+    a.setAttribute("href", finalCanvas.toDataURL("image/png"));
+
     a.setAttribute("download", document.querySelector("input").value.trim());
-    console.log(a);
+    console.log(a.href);
 
     a.click();
   });
 
   document.querySelector("button.share")?.addEventListener("click", () => {
-    canvas.toBlob((blob) => {
+    mainCanvas.toBlob((blob) => {
       const filesArray = [
         new File(
           [blob],
@@ -364,17 +404,17 @@ const canShare = true;
     if (options.modifier) {
       input.value = input.value[options.modifier]?.() ?? input.value;
     }
-    const widthToCompare = context.measureText(input.value.trim()).width;
-    context.fillStyle = options.fillStyle;
+    const widthToCompare = mainContext.measureText(input.value.trim()).width;
+    mainContext.fillStyle = options.fillStyle;
     if (widthToCompare == 0) {
-      context.font =
+      mainContext.font =
         (options.textStyle ? options.textStyle + " " : "") +
         options.defaultFontSize +
         " px " +
         options.font;
       return;
     }
-    context.font =
+    mainContext.font =
       (options.textStyle ? options.textStyle + " " : "") +
       fontSize +
       "px " +
@@ -386,17 +426,17 @@ const canShare = true;
   }
 
   input.addEventListener("keyup", function () {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
-    context.save();
-    context.translate(options.squareX, options.squareY);
+    mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+    mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
+    mainContext.save();
+    mainContext.translate(options.squareX, options.squareY);
     const localOptions = structuredClone(options);
 
-    context.textBaseline = options.textBaseline;
-    if (context.textBaseline != "middle") {
+    mainContext.textBaseline = options.textBaseline;
+    if (mainContext.textBaseline != "middle") {
       setFontByMaxWidth(options.maxFontSize);
     } else {
-      context.font =
+      mainContext.font =
         (options.textStyle ? options.textStyle + " " : "") +
         options.defaultFontSize +
         "px " +
@@ -406,7 +446,7 @@ const canShare = true;
       // this.value = this.value[localOptions.modifier]?.() ?? this.value
       this.value = "";
     }
-    const width = context.measureText(this.value.trim()).width;
+    const width = mainContext.measureText(this.value.trim()).width;
     if (localOptions.useWidth?.X) {
       localOptions.textX = -width / localOptions.textX;
       if (localOptions.shadow?.textX) {
@@ -429,18 +469,18 @@ const canShare = true;
     }
 
     if (localOptions.shadow) {
-      context.fillStyle = localOptions.shadow.fillStyle;
-      context.fillText(value, -width / 2 + 10, 30);
+      mainContext.fillStyle = localOptions.shadow.fillStyle;
+      mainContext.fillText(value, -width / 2 + 10, 30);
     }
 
-    context.fillStyle = localOptions.fillStyle;
-    context.fillText(value.trim(), localOptions.textX, localOptions.textY);
-    context.restore();
+    mainContext.fillStyle = localOptions.fillStyle;
+    mainContext.fillText(value.trim(), localOptions.textX, localOptions.textY);
+    mainContext.restore();
   });
   baseImage.addEventListener("load", () => {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
-    context.save();
+    mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+    mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
+    mainContext.save();
     setTimeout(() => input.dispatchEvent(new Event("keyup")), 100);
     setTimeout(() => input.dispatchEvent(new Event("keyup")), 300);
     setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
