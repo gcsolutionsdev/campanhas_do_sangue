@@ -1,303 +1,317 @@
 ---
 const { src, config } = Astro.props;
 ---
-<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,600;1,600&amp;family=Josefin+Sans&amp;family=Poppins&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 
-<input type="text">
+<link
+  href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,600;1,600&family=Josefin+Sans&family=Poppins&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
+  rel="stylesheet"
+/>
+
+<input type="text" />
 
 <button class="save">Salvar Imagem 💾</button>
-<button class="share">
-  Compartilhar Imagem 🔗
-</button>
+<button class="share"> Compartilhar Imagem 🔗 </button>
 
-<canvas width="1080" height="1080" style="width: 100%;" data-src={src} data-options={JSON.stringify(config)}></canvas>
+<canvas
+  width="1080"
+  height="1080"
+  style="width: 100%;"
+  data-src={src}
+  data-options={JSON.stringify(config)}></canvas>
 
 <script defer="">
-    const canvas = document.querySelector("canvas");
-    const context = canvas.getContext("2d");
-    const options = JSON.parse(canvas.dataset.options ?? "{}");
-    const baseImage = new Image();
-    baseImage.src = canvas.dataset.src;
-    const names = [
-      "Késsia",
-      "Jose",
-      "João",
-      "Michelle",
-      "Joao",
-      "Antônio",
-      "Antonio",
-      "Francisco",
-      "Carlos",
-      "Paulo",
-      "Pedro",
-      "Lucas",
-      "Luiz",
-      "Luíz",
-      "Marcos",
-      "Luis",
-      "Luís",
-      "Gabriel",
-      "Rafael",
-      "Daniel",
-      "Marcelo",
-      "Bruno",
-      "Eduardo",
-      "Felipe",
-      "Raimundo",
-      "Rodrigo",
-      "Manoel",
-      "Mateus",
-      "André",
-      "André",
-      "Denise",
-      "Fernando",
-      "Fábio",
-      "Fabio",
-      "Leonardo",
-      "Gustavo",
-      "Guilherme",
-      "Leandro",
-      "Tiago",
-      "Ânderson",
-      "Anderson",
-      "Ricardo",
-      "Márcio",
-      "Marcio",
-      "Jorge",
-      "Sebastião",
-      "Sebastiao",
-      "Alexandre",
-      "Roberto",
-      "Édson",
-      "Edson",
-      "Diego",
-      "Vítor",
-      "Vitor",
-      "Sérgio",
-      "Sergio",
-      "Cláudio",
-      "Claudio",
-      "Matheus",
-      "Thiago",
-      "Geraldo",
-      "Adriano",
-      "Luciano",
-      "Júlio",
-      "Julio",
-      "Renato",
-      "Alex",
-      "Vinícius",
-      "Vinicius",
-      "Rogério",
-      "Rogerio",
-      "Samuel",
-      "Ronaldo",
-      "Mário",
-      "Mario",
-      "Flávio",
-      "Flavio",
-      "Ígor",
-      "Igor",
-      "Douglas",
-      "Daví",
-      "Davi",
-      "Manuel",
-      "Maria",
-      "Ana",
-      "Francisca",
-      "Antônia",
-      "Antonia",
-      "Adriana",
-      "Juliana",
-      "Márcia",
-      "Marcia",
-      "Fernanda",
-      "Patricia",
-      "Patrícia",
-      "Aline",
-      "Sandra",
-      "Camila",
-      "Amanda",
-      "Bruna",
-      "Jéssica",
-      "Jessica",
-      "Leticia",
-      "Letícia",
-      "Júlia",
-      "Julia",
-      "Luciana",
-      "Vanessa",
-      "Mariana",
-      "Gabriela",
-      "Vera",
-      "Luany",
-      "Vitória",
-      "Vitoria",
-      "Larissa",
-      "Cláudia",
-      "Claudia",
-      "Beatriz",
-      "Luana",
-      "Rita",
-      "Sônia",
-      "Sonia",
-      "Renata",
-      "Eliane",
-      "Josefa",
-      "Simone",
-      "Natália",
-      "Natalia",
-      "Cristiane",
-      "Carla",
-      "Débora",
-      "Debora",
-      "Rosângela",
-      "Rosangela",
-      "Jaqueline",
-      "Rosa",
-      "Daniela",
-      "Aparecida",
-      "Marlene",
-      "Terezinha",
-      "Raimunda",
-      "Andréia",
-      "Andreia",
-      "Fabiana",
-      "Lúcia",
-      "Lucia",
-      "Raquel",
-      "Ângela",
-      "Angela",
-      "Rafaela",
-      "Joana",
-      "Luzía",
-      "Luzia",
-      "Elaine",
-      "Daniele",
-      "Regina",
-      "Dáiane",
-      "Daiane",
-      "Suelí",
-      "Sueli",
-      "Alessandra",
-      "Isabel",
-    ];
+  const canvas = document.querySelector("canvas");
+  const context = canvas.getContext("2d");
+  const options = JSON.parse(canvas.dataset.options ?? "{}");
+  const baseImage = new Image();
+  baseImage.src = canvas.dataset.src;
+  const names = [
+    "Késsia",
+    "Jose",
+    "João",
+    "Michelle",
+    "Joao",
+    "Antônio",
+    "Antonio",
+    "Francisco",
+    "Carlos",
+    "Paulo",
+    "Pedro",
+    "Lucas",
+    "Luiz",
+    "Luíz",
+    "Marcos",
+    "Luis",
+    "Luís",
+    "Gabriel",
+    "Rafael",
+    "Daniel",
+    "Marcelo",
+    "Bruno",
+    "Eduardo",
+    "Felipe",
+    "Raimundo",
+    "Rodrigo",
+    "Manoel",
+    "Mateus",
+    "André",
+    "André",
+    "Denise",
+    "Fernando",
+    "Fábio",
+    "Fabio",
+    "Leonardo",
+    "Gustavo",
+    "Guilherme",
+    "Leandro",
+    "Tiago",
+    "Ânderson",
+    "Anderson",
+    "Ricardo",
+    "Márcio",
+    "Marcio",
+    "Jorge",
+    "Sebastião",
+    "Sebastiao",
+    "Alexandre",
+    "Roberto",
+    "Édson",
+    "Edson",
+    "Diego",
+    "Vítor",
+    "Vitor",
+    "Sérgio",
+    "Sergio",
+    "Cláudio",
+    "Claudio",
+    "Matheus",
+    "Thiago",
+    "Geraldo",
+    "Adriano",
+    "Luciano",
+    "Júlio",
+    "Julio",
+    "Renato",
+    "Alex",
+    "Vinícius",
+    "Vinicius",
+    "Rogério",
+    "Rogerio",
+    "Samuel",
+    "Ronaldo",
+    "Mário",
+    "Mario",
+    "Flávio",
+    "Flavio",
+    "Ígor",
+    "Igor",
+    "Douglas",
+    "Daví",
+    "Davi",
+    "Manuel",
+    "Maria",
+    "Ana",
+    "Francisca",
+    "Antônia",
+    "Antonia",
+    "Adriana",
+    "Juliana",
+    "Márcia",
+    "Marcia",
+    "Fernanda",
+    "Patricia",
+    "Patrícia",
+    "Aline",
+    "Sandra",
+    "Camila",
+    "Amanda",
+    "Bruna",
+    "Jéssica",
+    "Jessica",
+    "Leticia",
+    "Letícia",
+    "Júlia",
+    "Julia",
+    "Luciana",
+    "Vanessa",
+    "Mariana",
+    "Gabriela",
+    "Vera",
+    "Luany",
+    "Vitória",
+    "Vitoria",
+    "Larissa",
+    "Cláudia",
+    "Claudia",
+    "Beatriz",
+    "Luana",
+    "Rita",
+    "Sônia",
+    "Sonia",
+    "Renata",
+    "Eliane",
+    "Josefa",
+    "Simone",
+    "Natália",
+    "Natalia",
+    "Cristiane",
+    "Carla",
+    "Débora",
+    "Debora",
+    "Rosângela",
+    "Rosangela",
+    "Jaqueline",
+    "Rosa",
+    "Daniela",
+    "Aparecida",
+    "Marlene",
+    "Terezinha",
+    "Raimunda",
+    "Andréia",
+    "Andreia",
+    "Fabiana",
+    "Lúcia",
+    "Lucia",
+    "Raquel",
+    "Ângela",
+    "Angela",
+    "Rafaela",
+    "Joana",
+    "Luzía",
+    "Luzia",
+    "Elaine",
+    "Daniele",
+    "Regina",
+    "Dáiane",
+    "Daiane",
+    "Suelí",
+    "Sueli",
+    "Alessandra",
+    "Isabel",
+  ];
 
-    document.querySelector("input").value = 
-     names[Math.floor(Math.random() * names.length)];
+  document.querySelector("input").value =
+    names[Math.floor(Math.random() * names.length)];
 
-    document.querySelector("button.save").addEventListener("click", () => {
-      const a = document.createElement("a");
-      a.setAttribute("href", canvas.toDataURL("image/png"));
-      a.setAttribute(
-        "download",
-        document.querySelector("input").value.trim()
-      );
-      a.click();
-    });
+  document.querySelector("button.save").addEventListener("click", () => {
+    const a = document.createElement("a");
+    a.setAttribute("href", canvas.toDataURL("image/png"));
+    a.setAttribute("download", document.querySelector("input").value.trim());
+    a.click();
+  });
 
-    document.querySelector("button.share").addEventListener("click", () => {
-      canvas.toBlob((blob) => {
-        const filesArray = [
-          new File(
-            [blob],
-            document.querySelector("input").value.trim() + ".jpg",
-            {
-              type: "image/jpeg",
-              lastModified: new Date().getTime(),
-            }
-          ),
-        ];
+  document.querySelector("button.share").addEventListener("click", () => {
+    canvas.toBlob((blob) => {
+      const filesArray = [
+        new File(
+          [blob],
+          document.querySelector("input").value.trim() + ".jpg",
+          {
+            type: "image/jpeg",
+            lastModified: new Date().getTime(),
+          }
+        ),
+      ];
 
-        if (navigator.share) {
-          navigator.share({
-            files: filesArray,
-          });
-        } else {
-          alert('Função de compartilhamento não habilitada nesse navegador. Experimente utilizar o Chrome/Safari/Opera');
-        }
-      });
-    });
-
-    const input = document.querySelector("input");
-    function setFontByMaxWidth(maxWidth, fontSize = 1) {
-      if(options.modifier) {
-        input.value = input.value[options.modifier]?.() ?? input.value
+      if (navigator.share) {
+        navigator.share({
+          files: filesArray,
+        });
+      } else {
+        alert(
+          "Função de compartilhamento não habilitada nesse navegador. Experimente utilizar o Chrome/Safari/Opera"
+        );
       }
-      const widthToCompare = context.measureText(input.value.trim()).width
-      context.fillStyle = options.fillStyle;
-      if (widthToCompare == 0) {
-        context.font = (options.textStyle ? options.textStyle + " " : "") + options.defaultFontSize + " px " + options.font;
-        return;
+    });
+  });
+
+  const input = document.querySelector("input");
+  function setFontByMaxWidth(maxWidth, fontSize = 1) {
+    if (options.modifier) {
+      input.value = input.value[options.modifier]?.() ?? input.value;
+    }
+    const widthToCompare = context.measureText(input.value.trim()).width;
+    context.fillStyle = options.fillStyle;
+    if (widthToCompare == 0) {
+      context.font =
+        (options.textStyle ? options.textStyle + " " : "") +
+        options.defaultFontSize +
+        " px " +
+        options.font;
+      return;
+    }
+    context.font =
+      (options.textStyle ? options.textStyle + " " : "") +
+      fontSize +
+      "px " +
+      options.font;
+    if (fontSize >= options.maxCompareFontSize) return;
+    if (widthToCompare < maxWidth) {
+      setFontByMaxWidth(maxWidth, fontSize + 1);
+    }
+  }
+
+  input.addEventListener("keyup", function () {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(baseImage, 0, 0);
+    context.save();
+    context.translate(options.squareX, options.squareY);
+    const localOptions = structuredClone(options);
+
+    context.textBaseline = options.textBaseline;
+    if (context.textBaseline != "middle") {
+      setFontByMaxWidth(options.maxFontSize);
+    } else {
+      context.font =
+        (options.textStyle ? options.textStyle + " " : "") +
+        options.defaultFontSize +
+        "px " +
+        options.font;
+    }
+    if (localOptions.modifier) {
+      this.value = this.value[localOptions.modifier]?.() ?? this.value;
+    }
+    const width = context.measureText(this.value.trim()).width;
+    if (localOptions.useWidth?.X) {
+      localOptions.textX = -width / localOptions.textX;
+      if (localOptions.shadow?.textX) {
+        localOptions.shadow.textX = -width / localOptions.shadow.textX;
       }
-      context.font = (options.textStyle ? options.textStyle + " " : "") + fontSize + "px " + options.font;
-      if (fontSize >= options.maxCompareFontSize)
-        return;
-      if (widthToCompare < maxWidth) {
-        setFontByMaxWidth(maxWidth, fontSize + 1);
+    }
+    if (localOptions.useWidth?.Y) {
+      localOptions.textY = -width / localOptions.textY;
+      if (localOptions.shadow?.textY) {
+        localOptions.shadow.textY = -width / localOptions.shadow.textY;
       }
     }
 
-    input.addEventListener("keyup", function () {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(baseImage, 0, 0);
-      context.save();
-      context.translate(options.squareX, options.squareY);
-      const localOptions = structuredClone(options);
+    let value = structuredClone(this.value);
+    if (localOptions.prefix) {
+      value = localOptions.prefix + value;
+    }
+    if (localOptions.sufix) {
+      value += localOptions.sufix;
+    }
 
-      context.textBaseline = options.textBaseline;
-      if(context.textBaseline != "middle") {
-        setFontByMaxWidth(options.maxFontSize);
-      } else {
-        context.font = (options.textStyle ? options.textStyle + " " : "") + options.defaultFontSize + "px " + options.font;
-      }
-      if(localOptions.modifier) {
-        this.value = this.value[localOptions.modifier]?.() ?? this.value
-      }
-      const width = context.measureText(
-          this.value.trim()
-      ).width;
-      if(localOptions.useWidth?.X) {
-        localOptions.textX = -width / localOptions.textX
-        if(localOptions.shadow?.textX) {
-          localOptions.shadow.textX = -width / localOptions.shadow.textX
-        }
-      }
-      if(localOptions.useWidth?.Y ) {
-        localOptions.textY = -width / localOptions.textY
-        if(localOptions.shadow?.textY) {
-          localOptions.shadow.textY = -width / localOptions.shadow.textY
-        }
-      }
+    if (localOptions.shadow) {
+      context.fillStyle = localOptions.shadow.fillStyle;
+      context.fillText(value, -width / 2 + 10, 30);
+    }
 
-      let value = structuredClone(this.value);
-      if(localOptions.prefix) {
-        value = localOptions.prefix + value
-      }
-      if(localOptions.sufix) {
-        value += localOptions.sufix
-      }
-
-      if(localOptions.shadow) {
-        context.fillStyle = localOptions.shadow.fillStyle;
-        context.fillText(
-          value,
-          -width / 2 + 10,
-          30
-        );
-      }
-
-      context.fillStyle = localOptions.fillStyle;
-      context.fillText(value.trim(), localOptions.textX, localOptions.textY);
-      context.restore();
-    });
-    baseImage.addEventListener("load", () => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(baseImage, 0, 0);
-      context.save();
-      setTimeout(() => input.dispatchEvent(new Event("keyup")), 100);
-      setTimeout(() => input.dispatchEvent(new Event("keyup")), 300);
-      setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
-    });
-  </script>
+    context.fillStyle = localOptions.fillStyle;
+    context.fillText(value.trim(), localOptions.textX, localOptions.textY);
+    context.restore();
+  });
+  baseImage.addEventListener("load", () => {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(baseImage, 0, 0);
+    context.save();
+    setTimeout(() => input.dispatchEvent(new Event("keyup")), 100);
+    setTimeout(() => input.dispatchEvent(new Event("keyup")), 300);
+    setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
+  });
+</script>

@@ -73,6 +73,9 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
     }
   }
   @media (max-width: 480px) {
+    .overlay-canvas {
+      width: 20rem;
+    }
     .action-panel {
       flex-direction: column;
       margin: 20px 0;
@@ -89,7 +92,7 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
     <label for="name">Nome: </label>
     <input type="text" id="name" />
     <label for="doacoes">Quantidade de doações:</label>
-    <input type="number" id="doacoes" />
+    <input type="number" id="doacoes" maxlength="3" />
   </div>
 
   <div class="buttons">
@@ -366,8 +369,8 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
     return canvasTemp;
   }
 
-  document.querySelector("input").value = "";
-  //  names[Math.floor(Math.random() * names.length)];?
+  document.querySelector("input").value =
+    names[Math.floor(Math.random() * names.length)];
 
   document.querySelector("button.save").addEventListener("click", () => {
     const a = document.createElement("a");
@@ -404,12 +407,16 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
     });
   });
 
-  const input = document.querySelector("input");
-  function setFontByMaxWidth(maxWidth, fontSize = 1) {
+  const inputs = document.querySelectorAll("input");
+
+  // Define as configurações de fonte do input
+  function setFontByMaxWidth(maxWidth, fontSize = 1, element) {
     if (options.modifier) {
-      input.value = input.value[options.modifier]?.() ?? input.value;
+      element.value = element.value[options.modifier]?.() ?? element.value;
+
+      console.log(options.modifier);
     }
-    const widthToCompare = mainContext.measureText(input.value.trim()).width;
+    const widthToCompare = mainContext.measureText(element.value.trim()).width;
     mainContext.fillStyle = options.fillStyle;
     if (widthToCompare == 0) {
       mainContext.font =
@@ -426,69 +433,118 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
       options.font;
     if (fontSize >= options.maxCompareFontSize) return;
     if (widthToCompare < maxWidth) {
-      setFontByMaxWidth(maxWidth, fontSize + 1);
+      setFontByMaxWidth(maxWidth, fontSize + 1, element);
     }
   }
 
-  input.addEventListener("keyup", function () {
+  const textState = {
+    nome: { value: "", textY: options.textY, color: options.fillStyle },
+    donations: { value: "", textY: options.textY + 60, color: "#e29b00" },
+  };
+
+  function drawText(event) {
+    if (event.target === inputs[0]) {
+      textState.nome.value = event.target.value;
+    } else if (event.target === inputs[1]) {
+      textState.donations.value = event.target.value;
+    }
+
     mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
     mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
-    mainContext.save();
-    mainContext.translate(options.squareX, options.squareY);
-    const localOptions = structuredClone(options);
 
-    mainContext.textBaseline = options.textBaseline;
-    if (mainContext.textBaseline != "middle") {
-      setFontByMaxWidth(options.maxFontSize);
-    } else {
-      mainContext.font =
-        (options.textStyle ? options.textStyle + " " : "") +
-        options.defaultFontSize +
-        "px " +
-        options.font;
-    }
-    if (localOptions.modifier) {
-      // this.value = this.value[localOptions.modifier]?.() ?? this.value
-      this.value = "";
-    }
-    const width = mainContext.measureText(this.value.trim()).width;
-    if (localOptions.useWidth?.X) {
-      localOptions.textX = -width / localOptions.textX;
-      if (localOptions.shadow?.textX) {
-        localOptions.shadow.textX = -width / localOptions.shadow.textX;
+    function drawSavedText(text, localOptions, style) {
+      mainContext.save();
+      mainContext.translate(options.squareX, options.squareY);
+      mainContext.textBaseline = options.textBaseline;
+
+      if (mainContext.textBaseline != "middle") {
+        setFontByMaxWidth(options.maxFontSize, 1, event.target);
+      } else {
+        mainContext.font =
+          (options.textStyle ? options.textStyle + " " : "") +
+          options.defaultFontSize +
+          "px " +
+          options.font;
       }
-    }
-    if (localOptions.useWidth?.Y) {
-      localOptions.textY = -width / localOptions.textY;
-      if (localOptions.shadow?.textY) {
-        localOptions.shadow.textY = -width / localOptions.shadow.textY;
+
+      let value = structuredClone(text.value);
+
+      if (localOptions.prefix) {
+        value = localOptions.prefix + value;
       }
+      if (localOptions.sufix) {
+        value += localOptions.sufix;
+      }
+
+      if (text === textState.donations) {
+        if (+value > 1) {
+          value = value + " Doações";
+        } else if (+value === 1) {
+          value = value + " Doação";
+        }
+      }
+
+      const width = mainContext.measureText(value.trim()).width;
+
+      if (localOptions.useWidth?.X) {
+        localOptions.textX = -width / localOptions.textX;
+
+        // Eixo X da sombra
+        if (localOptions.shadow?.textX) {
+          // localOptions.shadow.textX = -width / localOptions.shadow.textX;
+          mainContext.shadowOffsetX = localOptions.shadow.textX;
+        }
+      }
+
+      if (localOptions.useWidth?.Y) {
+        localOptions.textY = -width / localOptions.textY;
+
+        //  Eixo Y da sombra
+        if (localOptions.shadow?.textY) {
+          mainContext.shadowOffsetY = localOptions.shadow.textY;
+        }
+      }
+
+      // Cor da "Sombra"
+      if (localOptions.shadow) {
+        // mainContext.fillStyle = localOptions.shadow.fillStyle;
+
+        mainContext.shadowColor = localOptions.shadow.fillStyle;
+        // mainContext.fillText(value, -width / 2 + 10, text.textY + 10);
+      }
+      mainContext.shadowBlur = localOptions.blur;
+
+      mainContext.fillStyle = style;
+      mainContext.fillText(value.trim(), localOptions.textX, text.textY);
+      mainContext.restore();
     }
 
-    let value = structuredClone(this.value);
-    if (localOptions.prefix) {
-      value = localOptions.prefix + value;
-    }
-    if (localOptions.sufix) {
-      value += localOptions.sufix;
-    }
+    drawSavedText(
+      textState.nome,
+      structuredClone(options),
+      textState.nome.color
+    );
+    drawSavedText(
+      textState.donations,
+      structuredClone(options),
+      textState.donations.color
+    );
+  }
 
-    if (localOptions.shadow) {
-      mainContext.fillStyle = localOptions.shadow.fillStyle;
-      mainContext.fillText(value, -width / 2 + 10, 30);
-    }
-
-    mainContext.fillStyle = localOptions.fillStyle;
-    mainContext.fillText(value.trim(), localOptions.textX, localOptions.textY);
-    mainContext.restore();
+  inputs.forEach((input) => {
+    input.addEventListener("keyup", drawText);
   });
+
   baseImage.addEventListener("load", () => {
     mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
     mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
     mainContext.save();
-    setTimeout(() => input.dispatchEvent(new Event("keyup")), 100);
-    setTimeout(() => input.dispatchEvent(new Event("keyup")), 300);
-    setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
+
+    inputs.forEach((input) => {
+      setTimeout(() => input.dispatchEvent(new Event("keyup")), 100);
+      setTimeout(() => input.dispatchEvent(new Event("keyup")), 300);
+      setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
+    });
   });
 </script>
 <p>

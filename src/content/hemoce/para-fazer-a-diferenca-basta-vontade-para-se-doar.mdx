@@ -11,23 +11,25 @@ import ImageCreateOverlay from "../../components/ImageCreateOverlay.astro";
 <ImageCreateOverlay
   src="/campanhas_do_sangue/MOLDURA-HEMOCE-2.png"
   config={{
-    font: "Cocogoose, Anton",
-    defaultFontSize: 100,
+    // cocogoose com erro em números
+    font: " Anton",
+    defaultFontSize: 50,
     textBaseline: "middle",
-    fillStyle: "#355e9e",
+    fillStyle: "white",
     textX: 2, // Posição horizontal do texto
     textY: 20, // Posição vertical do texto
     useWidth: {
       X: true,
       Y: false,
     },
-    squareX: 500,
-    squareY: 500,
+    squareX: 350,
+    squareY: 810,
     modifier: "toUpperCase",
     shadow: {
-      textX: 10,
-      textY: 25,
-      fillStyle: "#d0d0d0",
+      textX: -2,
+      textY: 2,
+      fillStyle: "black",
+      blur: 15,
     },
     prefix: null,
     sufix: null,
