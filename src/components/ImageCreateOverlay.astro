@@ -120,7 +120,7 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
     data-src={src}
     data-options={JSON.stringify(config)}></canvas>
 
-  <canvas id="imageCanvas" width="640" height="1138"></canvas>
+  <canvas id="imageCanvas" width="562" height="901"></canvas>
 </section>
 
 <script defer="">
@@ -353,7 +353,13 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
     canvasTemp.height = mainCanvas.height;
     const ctxTemp = canvasTemp.getContext("2d");
 
-    ctxTemp.drawImage(imageCanvas, 0, 0, imageCanvas.width, imageCanvas.height);
+    ctxTemp.drawImage(
+      imageCanvas,
+      80,
+      70,
+      imageCanvas.width,
+      imageCanvas.height
+    );
 
     ctxTemp.drawImage(mainCanvas, 0, 0, mainCanvas.width, mainCanvas.height);
 
@@ -369,7 +375,6 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
     a.setAttribute("href", finalCanvas.toDataURL("image/png"));
 
     a.setAttribute("download", document.querySelector("input").value.trim());
-    console.log(a.href);
 
     a.click();
   });
