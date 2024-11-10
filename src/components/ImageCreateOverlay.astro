@@ -512,7 +512,7 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
         mainContext.shadowColor = localOptions.shadow.fillStyle;
         // mainContext.fillText(value, -width / 2 + 10, text.textY + 10);
       }
-      mainContext.shadowBlur = localOptions.blur;
+      mainContext.shadowBlur = localOptions.shadow.blur;
 
       mainContext.fillStyle = style;
       mainContext.fillText(value.trim(), localOptions.textX, text.textY);
