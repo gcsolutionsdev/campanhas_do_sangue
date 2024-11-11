@@ -2,7 +2,6 @@
 const { src, config } = Astro.props;
 import "../styles/global.css";
 // const canShare = typeof navigator !== "undefined" && navigator.share;
-const canShare = false;
 ---
 
 <!-- Fontes -->
@@ -17,7 +16,7 @@ const canShare = false;
 
 <style>
   .action-panel {
-    /* border: 1pt solid green; */
+    /* border: 1pt solid green; */x
     width: 60%;
     gap: 10px;
     height: 8rem;
@@ -127,7 +126,7 @@ const canShare = false;
       </label>
     </button>
 
-    {canShare && <button class="share">Compartilhar Imagem 🔗</button>}
+  <button class="share">Compartilhar Imagem 🔗</button>
 
     <input
       type="file"
@@ -151,6 +150,13 @@ const canShare = false;
 </section>
 
 <script defer="">
+
+  	const shareButton = document.querySelector("button.share");
+    
+    if (!navigator?.share) {
+      shareButton.style.display = "none";
+  }
+
   // Canvas 1 - principal
   const mainCanvas = document.querySelector("canvas#mainCanvas");
   const mainContext = mainCanvas.getContext("2d");
@@ -410,8 +416,9 @@ const canShare = false;
     a.click();
   });
 
-  document.querySelector("button.share")?.addEventListener("click", () => {
-    mainCanvas.toBlob((blob) => {
+  shareButton?.addEventListener("click", () => {
+    const finalCanvas = joinCanvas();
+    finalCanvas.toBlob((blob) => {
       const filesArray = [
         new File(
           [blob],
