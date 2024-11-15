@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas Overlay</title>
+    <link href="resources/style.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,600;1,600&family=Josefin+Sans&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section class="action-panel">
+      <!-- <div class="inputs">
+        <label for="name">Nome: </label>
+        <input type="text" id="name" />
+        <label for="doacoes">Quantidade de doações:</label>
+        <input type="number" id="doacoes" maxlength="3" />
+      </div> -->
+      <!-- <div class="buttons">
+      </div> -->
+      <button class="save">Salvar Imagem 💾</button>
+      <button>
+        <label for="imageInput" class="custom-image-upload"
+          >Selecione uma foto 📷</label
+        >
+      </button>
+      <button class="share">Compartilhar Imagem 🔗</button>
+      <input type="file" id="imageInput" class="image-input" accept="image/*" />
+    </section>
+    <section class="overlay-canvas">
+      <canvas
+        width="720"
+        height="1280"
+        id="mainCanvas"
+        data-src="resources/MOLDURA-HEMOCE-2.png"
+        data-options=""
+      ></canvas>
+      <canvas id="imageCanvas" width="562" height="901"></canvas>
+    </section>
+    <script src="resources/app.js" defer></script>
+  </body>
+</html>

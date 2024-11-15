@@ -47,6 +47,7 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
     width="720"
     height="1280"
     id="mainCanvas"
+    style={{ width: "100%" }}
     data-src={src}
     data-options={JSON.stringify(config)}></canvas>
 </section>
@@ -59,67 +60,92 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
   const baseImage = new Image();
   baseImage.src = mainCanvas.dataset.src;
 
-  baseImage.addEventListener("load", () => {
-    context.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-    context.save();
-    function draw() {    
-      context.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
-      document
-        .querySelector('input[type="file"]')
-        .addEventListener("change", ({ target }) => {
-          const file = target.files[0];
-          const reader = new FileReader();
-          const photo = new Image();
+  baseImage.addEventListener(
+    "load",
+    () => {
+      context.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+      context.save();
+      function draw() {
+        context.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
+        document.querySelector('input[type="file"]').addEventListener(
+          "change",
+          ({ target }) => {
+            const file = target.files[0];
+            const reader = new FileReader();
+            const photo = new Image();
 
-          if (!file || !file?.type?.startsWith?.("image/")) {
-            return;
-          }
-
-          reader.addEventListener("load", (e) => {
-            photo.src = String(e.target?.result);
-            photo.onload = () => {
-              const aspect = mainCanvas.width / mainCanvas.height;
-              const photoAspect = photo.width / photo.height;
-
-              let drawWidth, drawHeight, offsetX, offsetY;
-
-              if (aspect > photoAspect) {
-                drawWidth = mainCanvas.width;
-                drawHeight = mainCanvas.width / photoAspect;
-                offsetY = (mainCanvas.height - drawHeight) / 2;
-                offsetX = 0;
-              } else {
-                drawHeight = mainCanvas.height;
-                drawWidth = mainCanvas.height * photoAspect;
-                offsetX = (mainCanvas.width - drawWidth) / 2;
-                offsetY = 0;
-              }
-              const oldWidth = photo.width;
-              photo.width = 1080;
-              photo.height = (1080 / oldWidth) * photo.height;
-
-              if (photo.height < 1080) {
-                const oldHeight = photo.height;
-                photo.height = 1080;
-                photo.width = (1080 / oldHeight) * photo.width;
-              }
-              context.drawImage(photo, offsetX, offsetY, drawWidth, drawHeight);
-              draw();
-            };
-
-            if (file) {
-              reader.readAsDataURL(file);
+            if (!file || !file?.type?.startsWith?.("image/")) {
+              return;
             }
-          }, false);
-          
-          reader.readAsDataURL(file);
-        }, {
-          once: true
-        });
+
+            reader.addEventListener(
+              "load",
+              (e) => {
+                photo.src = String(e.target?.result);
+                photo.onload = () => {
+                  const aspect = mainCanvas.width / mainCanvas.height;
+                  const photoAspect = photo.width / photo.height;
+
+                  let drawWidth, drawHeight, offsetX, offsetY;
+
+                  if (aspect > photoAspect) {
+                    drawWidth = mainCanvas.width;
+                    drawHeight = mainCanvas.width / photoAspect;
+                    offsetY = (mainCanvas.height - drawHeight) / 2;
+                    offsetX = 0;
+                  } else {
+                    drawHeight = mainCanvas.height;
+                    drawWidth = mainCanvas.height * photoAspect;
+                    offsetX = (mainCanvas.width - drawWidth) / 2;
+                    offsetY = 0;
+                  }
+                  const oldWidth = photo.width;
+                  photo.width = 1080;
+                  photo.height = (1080 / oldWidth) * photo.height;
+
+                  if (photo.height < 1080) {
+                    const oldHeight = photo.height;
+                    photo.height = 1080;
+                    photo.width = (1080 / oldHeight) * photo.width;
+                  }
+                  context.drawImage(
+                    photo,
+                    offsetX,
+                    offsetY,
+                    drawWidth,
+                    drawHeight
+                  );
+                  draw();
+                };
+
+                if (file) {
+                  reader.readAsDataURL(file);
+                }
+              },
+              false
+            );
+
+            reader.readAsDataURL(file);
+          },
+          {
+            once: true,
+          }
+        );
+      }
+      draw();
+    },
+    {
+      once: true,
     }
-    draw();
-  }, {
-    once: true
+  );
+
+  document.querySelector("button.save").addEventListener("click", () => {
+    const a = document.createElement("a");
+    a.setAttribute("href", mainCanvas.toDataURL("image/png"));
+
+    a.setAttribute("download", document.querySelector("input").value.trim());
+
+    a.click();
   });
   const inputs = document.querySelectorAll("input");
 
@@ -248,7 +274,6 @@ const canShare = typeof navigator !== "undefined" && navigator.share;
   inputs.forEach((input) => {
     input.addEventListener("keyup", drawText);
   });
-
 </script>
 <p>
   Feito com carinho por <a href="https://github.com/Carloss-Dev" target="_blank"

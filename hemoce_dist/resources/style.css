@@ -1,0 +1,95 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.action-panel {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 10px;
+
+  button {
+    width: 80%;
+    min-width: 10rem;
+  }
+}
+.action-panel .image-input {
+  display: none;
+}
+/* .inputs {
+  height: 100%;
+  width: 60%;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+} */
+/* .buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-end;
+  height: 100%;
+  width: 40%;
+  border: 1pt solid red;
+} */
+.overlay-canvas {
+  width: 40%;
+  min-width: 25rem;
+  aspect-ratio: 3 / 4;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.overlay-canvas canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+}
+.overlay-canvas canvas:nth-child(1) {
+  z-index: 200;
+}
+.overlay-canvas canvas:nth-child(2) {
+  align-self: flex-start;
+  width: 59%;
+  transform: translateY(8.8%);
+  height: 67%;
+  z-index: 100;
+}
+@media (max-width: 991px) {
+  .overlay-canvas canvas:nth-child(2) {
+    transform: translateY(8.6%);
+  }
+}
+@media (max-width: 767px) {
+  .overlay-canvas canvas:nth-child(2) {
+    transform: translateY(8.7%);
+  }
+}
+@media (max-width: 480px) {
+  .overlay-canvas canvas:nth-child(2) {
+    transform: translateY(8.5%);
+  }
+  .action-panel {
+    flex-direction: column;
+    width: 60%;
+  }
+  /* .buttons {
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+  } */
+}
