@@ -7,7 +7,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_FAVICON } from '../consts';
 type Props = CollectionEntry<'hemoce'>['data'];
 
-const { title, description, pubDate, favicon, updatedDate, heroImage } = Astro.props;
+const { title, showTitle, overrideTitle, description, pubDate, favicon, updatedDate, heroImage } = Astro.props;
 ---
 
 <html lang="pt-br">
@@ -81,7 +81,9 @@ const { title, description, pubDate, favicon, updatedDate, heroImage } = Astro.p
 								)
 							}
 						</div>
-						<h3 style="color: black!important">{title}</h3>
+						{
+							showTitle && (<h3 style="color: black!important">{overrideTitle ?? title}</h3>)
+						}
 						<hr />
 					</div>
 					<slot />

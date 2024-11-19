@@ -4,33 +4,19 @@ if (!navigator?.share) {
   shareButton.style.display = "none";
 }
 
-// if (false) {
-//   shareButton.style.display = "none";
-// }
-
-// Canvas 1 - principal
 const mainCanvas = document.querySelector("canvas#mainCanvas");
 const mainContext = mainCanvas.getContext("2d");
 
-// Canvas 2 - imagem do usuário
 const imageCanvas = document.querySelector("canvas#imageCanvas");
 const imageContext = imageCanvas.getContext("2d");
 
-// const options = JSON.parse(
-//   mainCanvas.dataset.options ? mainCanvas.dataset.options : "{}"
-// );
-
-// Configurações de Texto
-
-//Options default
 const options = {
-  // cocogoose com erro em números
   font: "Anton",
   defaultFontSize: 50,
   textBaseline: "middle",
   fillStyle: "white",
-  textX: 2, // Posição horizontal do texto
-  textY: 20, // Posição vertical do texto
+  textX: 2,
+  textY: 20,
   useWidth: {
     X: true,
     Y: false,
@@ -47,7 +33,7 @@ const options = {
   prefix: null,
   sufix: null,
 };
-// Options específicas
+
 const textState = {
   nome: { value: "Josê Silva", textY: options.textY, color: options.fillStyle },
   donations: { value: "10", textY: options.textY + 60, color: "#e29b00" },
@@ -55,171 +41,6 @@ const textState = {
 
 const baseImage = new Image();
 baseImage.src = mainCanvas.dataset.src;
-
-// const names = [
-//   "Késsia",
-//   "Jose",
-//   "João",
-//   "Michelle",
-//   "Joao",
-//   "Antônio",
-//   "Antonio",
-//   "Francisco",
-//   "Carlos",
-//   "Paulo",
-//   "Pedro",
-//   "Lucas",
-//   "Luiz",
-//   "Luíz",
-//   "Marcos",
-//   "Luis",
-//   "Luís",
-//   "Gabriel",
-//   "Rafael",
-//   "Daniel",
-//   "Marcelo",
-//   "Bruno",
-//   "Eduardo",
-//   "Felipe",
-//   "Raimundo",
-//   "Rodrigo",
-//   "Manoel",
-//   "Mateus",
-//   "André",
-//   "André",
-//   "Denise",
-//   "Fernando",
-//   "Fábio",
-//   "Fabio",
-//   "Leonardo",
-//   "Gustavo",
-//   "Guilherme",
-//   "Leandro",
-//   "Tiago",
-//   "Ânderson",
-//   "Anderson",
-//   "Ricardo",
-//   "Márcio",
-//   "Marcio",
-//   "Jorge",
-//   "Sebastião",
-//   "Sebastiao",
-//   "Alexandre",
-//   "Roberto",
-//   "Édson",
-//   "Edson",
-//   "Diego",
-//   "Vítor",
-//   "Vitor",
-//   "Sérgio",
-//   "Sergio",
-//   "Cláudio",
-//   "Claudio",
-//   "Matheus",
-//   "Thiago",
-//   "Geraldo",
-//   "Adriano",
-//   "Luciano",
-//   "Júlio",
-//   "Julio",
-//   "Renato",
-//   "Alex",
-//   "Vinícius",
-//   "Vinicius",
-//   "Rogério",
-//   "Rogerio",
-//   "Samuel",
-//   "Ronaldo",
-//   "Mário",
-//   "Mario",
-//   "Flávio",
-//   "Flavio",
-//   "Ígor",
-//   "Igor",
-//   "Douglas",
-//   "Daví",
-//   "Davi",
-//   "Manuel",
-//   "Maria",
-//   "Ana",
-//   "Francisca",
-//   "Antônia",
-//   "Antonia",
-//   "Adriana",
-//   "Juliana",
-//   "Márcia",
-//   "Marcia",
-//   "Fernanda",
-//   "Patricia",
-//   "Patrícia",
-//   "Aline",
-//   "Sandra",
-//   "Camila",
-//   "Amanda",
-//   "Bruna",
-//   "Jéssica",
-//   "Jessica",
-//   "Leticia",
-//   "Letícia",
-//   "Júlia",
-//   "Julia",
-//   "Luciana",
-//   "Vanessa",
-//   "Mariana",
-//   "Gabriela",
-//   "Vera",
-//   "Luany",
-//   "Vitória",
-//   "Vitoria",
-//   "Larissa",
-//   "Cláudia",
-//   "Claudia",
-//   "Beatriz",
-//   "Luana",
-//   "Rita",
-//   "Sônia",
-//   "Sonia",
-//   "Renata",
-//   "Eliane",
-//   "Josefa",
-//   "Simone",
-//   "Natália",
-//   "Natalia",
-//   "Cristiane",
-//   "Carla",
-//   "Débora",
-//   "Debora",
-//   "Rosângela",
-//   "Rosangela",
-//   "Jaqueline",
-//   "Rosa",
-//   "Daniela",
-//   "Aparecida",
-//   "Marlene",
-//   "Terezinha",
-//   "Raimunda",
-//   "Andréia",
-//   "Andreia",
-//   "Fabiana",
-//   "Lúcia",
-//   "Lucia",
-//   "Raquel",
-//   "Ângela",
-//   "Angela",
-//   "Rafaela",
-//   "Joana",
-//   "Luzía",
-//   "Luzia",
-//   "Elaine",
-//   "Daniele",
-//   "Regina",
-//   "Dáiane",
-//   "Daiane",
-//   "Suelí",
-//   "Sueli",
-//   "Alessandra",
-//   "Isabel",
-// ];
 
 document
   .querySelector("input[type='file']")
@@ -286,15 +107,10 @@ function joinCanvas() {
 }
 const inputs = document.querySelectorAll("input");
 
-// inputs[0].value = "Josê Silva";
-// names[Math.floor(Math.random() * names.length)];
-
 document.querySelector("button.save").addEventListener("click", () => {
   const a = document.createElement("a");
   const finalCanvas = joinCanvas();
   a.setAttribute("href", finalCanvas.toDataURL("image/png"));
-
-  // a.setAttribute("download", document.querySelector("input").value.trim());
   a.setAttribute("download", textState.nome.value.replace(" ", "-").trim());
 
   a.click();
@@ -322,7 +138,6 @@ shareButton?.addEventListener("click", () => {
   });
 });
 
-// Define as configurações de fonte do input
 function setFontByMaxWidth(maxWidth, fontSize = 1, element) {
   if (options.modifier) {
     element.value = element.value[options.modifier]?.() ?? element.value;
@@ -351,12 +166,6 @@ function setFontByMaxWidth(maxWidth, fontSize = 1, element) {
 }
 
 function drawText(event) {
-  // if (event.target === inputs[0]) {
-  //   textState.nome.value = event.target.value;
-  // } else if (event.target === inputs[1]) {
-  //   textState.donations.value = event.target.value;
-  // }
-
   mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
   mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
 
@@ -399,9 +208,7 @@ function drawText(event) {
     if (localOptions.useWidth?.X) {
       localOptions.textX = -width / localOptions.textX;
 
-      // Eixo X da sombra
       if (localOptions.shadow?.textX) {
-        // localOptions.shadow.textX = -width / localOptions.shadow.textX;
         mainContext.shadowOffsetX = localOptions.shadow.textX;
       }
     }
@@ -409,18 +216,14 @@ function drawText(event) {
     if (localOptions.useWidth?.Y) {
       localOptions.textY = -width / localOptions.textY;
 
-      //  Eixo Y da sombra
       if (localOptions.shadow?.textY) {
         mainContext.shadowOffsetY = localOptions.shadow.textY;
       }
     }
 
-    // Cor da "Sombra"
     if (localOptions.shadow) {
-      // mainContext.fillStyle = localOptions.shadow.fillStyle;
 
       mainContext.shadowColor = localOptions.shadow.fillStyle;
-      // mainContext.fillText(value, -width / 2 + 10, text.textY + 10);
     }
     mainContext.shadowBlur = localOptions.shadow.blur;
 
@@ -437,19 +240,9 @@ function drawText(event) {
   );
 }
 
-// inputs.forEach((input) => {
-//   input.addEventListener("load", drawText);
-// });
-
 baseImage.addEventListener("load", () => {
   mainContext.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
   drawText();
   mainContext.drawImage(baseImage, 0, 0, mainCanvas.width, mainCanvas.height);
   mainContext.save();
-
-  // inputs.forEach((input) => {
-  //   setTimeout(() => input.dispatchEvent(new Event("keyup")), 100);
-  //   setTimeout(() => input.dispatchEvent(new Event("keyup")), 300);
-  //   setTimeout(() => input.dispatchEvent(new Event("keyup")), 500);
-  // });
 });
