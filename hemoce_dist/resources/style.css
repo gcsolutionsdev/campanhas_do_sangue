@@ -9,7 +9,6 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: red;
 }
 .action-panel {
   width: 40%;
