@@ -9,6 +9,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-color: red;
 }
 .action-panel {
   width: 40%;
@@ -65,7 +66,7 @@ body {
 .overlay-canvas canvas:nth-child(2) {
   align-self: flex-start;
   width: 59%;
-  transform: translateY(8.8%);
+  transform: translateY(8.5%);
   height: 67%;
   z-index: 100;
 }
