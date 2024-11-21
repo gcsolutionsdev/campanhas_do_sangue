@@ -81,7 +81,7 @@ body {
 }
 @media (max-width: 480px) {
   .overlay-canvas canvas:nth-child(2) {
-    transform: translateY(8.5%);
+    transform: translateY(8.8%);
   }
   .action-panel {
     flex-direction: column;
